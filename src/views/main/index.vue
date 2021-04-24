@@ -14,9 +14,11 @@
                 </div>
                 <!--导航菜单-->
                 <el-scrollbar>
+                    <!--router  路由-->
                     <el-menu
                             active-text-color="#F56C6C"
                             text-color="#606266"
+                            router
                             default-active="1">
                         <!--导航头-->
                         <el-menu-item index="1">
@@ -30,16 +32,16 @@
                                 <i class="el-icon-location"></i>
                                 <span>商品相关</span>
                             </template>
-                            <el-menu-item index="2-1">
+                            <el-menu-item index="/brand">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">品牌管理</span>
                             </el-menu-item>
-                            <el-menu-item index="2-2">
+                            <el-menu-item index="/category">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">分类管理</span>
                             </el-menu-item>
 
-                            <el-menu-item index="2-3">
+                            <el-menu-item index="/good">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">商品管理</span>
                             </el-menu-item>
@@ -51,11 +53,11 @@
                                 <i class="el-icon-location"></i>
                                 <span>员工相关</span>
                             </template>
-                            <el-menu-item index="3-1">
+                            <el-menu-item index="/dept">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">部门管理</span>
                             </el-menu-item>
-                            <el-menu-item index="3-2">
+                            <el-menu-item index="/admin">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">员工管理</span>
                             </el-menu-item>
@@ -67,11 +69,11 @@
                                 <i class="el-icon-location"></i>
                                 <span>系统管理</span>
                             </template>
-                            <el-menu-item index="4-1">
+                            <el-menu-item index="/role">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">角色管理</span>
                             </el-menu-item>
-                            <el-menu-item index="4-2">
+                            <el-menu-item index="/menu">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">权限管理</span>
                             </el-menu-item>

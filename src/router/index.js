@@ -31,6 +31,27 @@ const routes = [
                 name: 'Good',
                 component: () => import( '../views/good/index.vue')
             },
+            {
+                path: '/admin',
+                name: 'Admin',
+                component: () => import( '../views/admin/index.vue')
+            },
+            {
+                path: '/dept',
+                name: 'Dept',
+                component: () => import( '../views/dept/index.vue')
+            },
+            {
+                path: '/role',
+                name: 'Role',
+                component: () => import( '../views/role/index.vue')
+            },
+            {
+                path: '/menu',
+                name: 'Menu',
+                component: () => import( '../views/menu/index.vue')
+            },
+
         ]
     },
     {
