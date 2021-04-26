@@ -20,81 +20,87 @@
                             text-color="#606266"
                             router
                             default-active="1">
-                        <!--导航头-->
-                        <el-menu-item index="1">
-                            <i class="el-icon-menu"></i>
-                            <span slot="title">系统首页</span>
-                        </el-menu-item>
 
-                        <!--商品相关-->
-                        <el-submenu index="2">
-                            <template slot="title">
-                                <i class="el-icon-location"></i>
-                                <span>商品相关</span>
-                            </template>
-                            <el-menu-item index="/brand">
-                                <i class="el-icon-menu"></i>
-                                <span slot="title">品牌管理</span>
-                            </el-menu-item>
-                            <el-menu-item index="/category">
-                                <i class="el-icon-menu"></i>
-                                <span slot="title">分类管理</span>
-                            </el-menu-item>
+                        <!--自定义组件-->
+                        <customitem v-for="(item,index) in menuList" :key="index" :item="item"></customitem>
 
-                            <el-menu-item index="/good">
-                                <i class="el-icon-menu"></i>
-                                <span slot="title">商品管理</span>
-                            </el-menu-item>
-                        </el-submenu>
 
-                        <!--员工相关-->
-                        <el-submenu index="3">
-                            <template slot="title">
-                                <i class="el-icon-location"></i>
-                                <span>员工相关</span>
-                            </template>
-                            <el-menu-item index="/dept">
-                                <i class="el-icon-menu"></i>
-                                <span slot="title">部门管理</span>
-                            </el-menu-item>
-                            <el-menu-item index="/admin">
-                                <i class="el-icon-menu"></i>
-                                <span slot="title">员工管理</span>
-                            </el-menu-item>
-                        </el-submenu>
 
-                        <!--系统管理-->
-                        <el-submenu index="4">
-                            <template slot="title">
-                                <i class="el-icon-location"></i>
-                                <span>系统管理</span>
-                            </template>
-                            <el-menu-item index="/role">
-                                <i class="el-icon-menu"></i>
-                                <span slot="title">角色管理</span>
-                            </el-menu-item>
-                            <el-menu-item index="/menu">
-                                <i class="el-icon-menu"></i>
-                                <span slot="title">权限管理</span>
-                            </el-menu-item>
+                        <!--&lt;!&ndash;导航头&ndash;&gt;-->
+                        <!--<el-menu-item index="1">-->
+                            <!--<i class="el-icon-menu"></i>-->
+                            <!--<span slot="title">系统首页</span>-->
+                        <!--</el-menu-item>-->
 
-                            <!--日志相关-->
-                            <el-submenu index="5">
-                                <template slot="title">
-                                    <i class="el-icon-location"></i>
-                                    <span>日志相关</span>
-                                </template>
-                                <el-menu-item index="5-1">
-                                    <i class="el-icon-menu"></i>
-                                    <span slot="title">登录日志</span>
-                                </el-menu-item>
-                                <el-menu-item index="5-2">
-                                    <i class="el-icon-menu"></i>
-                                    <span slot="title">操作日志</span>
-                                </el-menu-item>
-                            </el-submenu>
+                        <!--&lt;!&ndash;商品相关&ndash;&gt;-->
+                        <!--<el-submenu index="2">-->
+                            <!--<template slot="title">-->
+                                <!--<i class="el-icon-location"></i>-->
+                                <!--<span>商品相关</span>-->
+                            <!--</template>-->
+                            <!--<el-menu-item index="/brand">-->
+                                <!--<i class="el-icon-menu"></i>-->
+                                <!--<span slot="title">品牌管理</span>-->
+                            <!--</el-menu-item>-->
+                            <!--<el-menu-item index="/category">-->
+                                <!--<i class="el-icon-menu"></i>-->
+                                <!--<span slot="title">分类管理</span>-->
+                            <!--</el-menu-item>-->
 
-                            </el-submenu>
+                            <!--<el-menu-item index="/good">-->
+                                <!--<i class="el-icon-menu"></i>-->
+                                <!--<span slot="title">商品管理</span>-->
+                            <!--</el-menu-item>-->
+                        <!--</el-submenu>-->
+
+                        <!--&lt;!&ndash;员工相关&ndash;&gt;-->
+                        <!--<el-submenu index="3">-->
+                            <!--<template slot="title">-->
+                                <!--<i class="el-icon-location"></i>-->
+                                <!--<span>员工相关</span>-->
+                            <!--</template>-->
+                            <!--<el-menu-item index="/dept">-->
+                                <!--<i class="el-icon-menu"></i>-->
+                                <!--<span slot="title">部门管理</span>-->
+                            <!--</el-menu-item>-->
+                            <!--<el-menu-item index="/admin">-->
+                                <!--<i class="el-icon-menu"></i>-->
+                                <!--<span slot="title">员工管理</span>-->
+                            <!--</el-menu-item>-->
+                        <!--</el-submenu>-->
+
+                        <!--&lt;!&ndash;系统管理&ndash;&gt;-->
+                        <!--<el-submenu index="4">-->
+                            <!--<template slot="title">-->
+                                <!--<i class="el-icon-location"></i>-->
+                                <!--<span>系统管理</span>-->
+                            <!--</template>-->
+                            <!--<el-menu-item index="/role">-->
+                                <!--<i class="el-icon-menu"></i>-->
+                                <!--<span slot="title">角色管理</span>-->
+                            <!--</el-menu-item>-->
+                            <!--<el-menu-item index="/menu">-->
+                                <!--<i class="el-icon-menu"></i>-->
+                                <!--<span slot="title">权限管理</span>-->
+                            <!--</el-menu-item>-->
+
+                            <!--&lt;!&ndash;日志相关&ndash;&gt;-->
+                            <!--<el-submenu index="5">-->
+                                <!--<template slot="title">-->
+                                    <!--<i class="el-icon-location"></i>-->
+                                    <!--<span>日志相关</span>-->
+                                <!--</template>-->
+                                <!--<el-menu-item index="5-1">-->
+                                    <!--<i class="el-icon-menu"></i>-->
+                                    <!--<span slot="title">登录日志</span>-->
+                                <!--</el-menu-item>-->
+                                <!--<el-menu-item index="5-2">-->
+                                    <!--<i class="el-icon-menu"></i>-->
+                                    <!--<span slot="title">操作日志</span>-->
+                                <!--</el-menu-item>-->
+                            <!--</el-submenu>-->
+
+                            <!--</el-submenu>-->
 
                     </el-menu>
                 </el-scrollbar>
@@ -121,9 +127,10 @@
 </template>
 
 <script>
-    export default {
-        name: "index"
-    }
+    import  mains from "./index.js"
+    export default mains
+
+
 </script>
 
 <style scoped lang="scss">

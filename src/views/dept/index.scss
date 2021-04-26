@@ -1,3 +1,20 @@
+.brand-wrapper {
+  height: 100%;
+}
+
+.fixed-wrapper {
+  height: 90px;
+}
+
+
+.el-scrollbar{
+  width: 100%;
+  height:  calc(100% - 100px);
+  .el-scrollbar__wrap {
+    overflow-x: hidden;
+  }
+}
+
 .page-box {
   margin-top: 10px;
   text-align: center;

@@ -1,139 +1,139 @@
-import dateOptions from "@/utils/date"; //引入date的渲染
-import base64 from '@/utils/base64Utils' //引入上传图片base64
-import {findPage, deleteById, batchDelete, addEntity,findById,updateEntity} from '@/api/brand'//引入axios的请求
+import {findPage, getChildrenById, addEntity, updateEntity, findById, deleteById} from '@/api/dept'
+import dateOptions from "@/utils/date";
+// import the component
+import Treeselect from '@riophae/vue-treeselect'
+// import the styles
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 
 let brand = {
     name: "index",
+    components: {Treeselect},
     data() {
         return {
             dateOptions,
-            tableData: [],//数据信息
-            total: '',//总条数
+            tableData: [],
+            total: 0,
             searchParams: {
-                currentPage: 1,//当前页
-                pageSize: 5,//每页显示条数
-                startTime: '',//开始时间
-                endTime: '',//结束时间
-                brandName: ''//品牌名称
-
+                currentPage: 1,
+                pageSize: 5
             },
-            batchIds: [],//批量删除  判断选中是否修改 和删除
-            dialogVisible: false,//新增窗口默认不开
-            formData: {},//新增表单信息
-            imageUrl: '' //上传品牌图片
+            dialogVisible: false,
+            formData: {},
+            treeSelectData: [],
+            isTop: true,
+            expandId: 0,
+            map: new Map(),
+            normalizer(node) {
+                return {
+                    id: node.id,
+                    label: node.deptName,
+                    children: node.children,
+                }
+            },
+            disable: true
+
         }
     },
-    created() {//回调函数
-        //查询
+    created() {
         this.searchPage();
     },
     methods: {
-        /**
-         * 查询所有
-         */
+        /*
+        * 查询所有
+        */
         async searchPage() {
             let response = await findPage(this.searchParams);
-            this.total = response.total;//总行数复制
-            this.tableData = response.data;//数据信息赋值
+            this.total = response.total;
+            this.tableData = response.data;
+        },
+        /**
+         * 获得一级部门
+         */
+        async getRootDeptList() {
+            this.treeSelectData = await getChildrenById(0);
+        },
+
+        /**
+         * 加载Table的数据
+         */
+        async loadTableData(tree, treeNode, resolve) {
+            console.log(tree);
+            this.expandId = tree.id;
+            this.map.set(tree.id, {tree, treeNode, resolve})
+            let response = await getChildrenById(tree.id)
+            setTimeout(() => resolve(response), 222)
+        },
+
+
+        /**
+         * 加载TreeSelect的数据
+         */
+        async loadTreeSelectData({action, parentNode, callback}) {
+            console.log("loadTreeSelectData执行了");
+            if (parentNode.hasChildren) {
+                let response = await getChildrenById(parentNode.id)
+                parentNode.children = response;
+            } else {
+                console.log("无孩子");
+            }
 
 
         },
 
 
+        /**
+         * 添加数据
+         * @param val
+         */
+        async addOrEdit() {
+            this.formData.parentId = this.isTop ? 0 : this.formData.parentId;
+            if (this.formData.id) {
+                await updateEntity(this.formData);
+            } else {
+                await addEntity(this.formData);
+            }
+            this.refreshPage();
+        },
 
-
+        /**
+         * 通过id查询
+         * @param val
+         */
+        async findById() {
+            let result = await findById(this.formData.id);
+            this.formData = result.obj;
+            this.treeSelectData = result.elements
+            this.isTop = this.formData.parentId == 0;
+        },
+        rowClick(row) {
+            this.disable = false;
+            this.formData.id = row.id;
+        },
         /**
          * 通过id删除
          */
         async deleteById() {
-            console.log(this.formData.id)
             await deleteById(this.formData.id);
-            this.searchPage();
+            this.refreshPage();
         },
 
-        /**
-         * 批量删除
-         */
-        async batchDeleteByIds() {
-            await batchDelete(this.batchIds);
-            this.searchPage();
-        },
-
-        /**
-         * 添加数据以及修改数据
-         */
-        async addOrEdit() {
-            if(this.formData.id){
-                //修改
-                await this.editEntity();
-            }else {
-                //添加
-                await  this.addEntity();
-            }
-            //刷新页面
-            this.searchPage();
-        },
-
-        //添加方法
-        async addEntity(){
-            await addEntity(this.formData);
-        },
-        //修改方法
-        async editEntity(){
-            await updateEntity(this.formData)
-
-        },
-
-        /**
-         *修改方法根据id进行赋值  通过id查询
-         */
-        async findById(id){
-            //表单赋值
-            this.formData=await  findById(this.formData.id);
-            //图片回写
-            this.imageUrl=this.formData.brandLogo;
-        },
-
-
-        //checkbox勾选改变
-        selectChange(val) {
-            console.log(val)
-            /**
-             * 复选框选择修改 进行id赋值
-             */
-            if (val.length==1){
-                //id赋值
-                this.formData.id=val[0].id;
-            }else {
-                this.formData.id="";
-            }
-            
-            
-            //勾选二个的时候修改失效  删除有效
-            this.batchIds = val.map(item => item.id)
-            
-
-        },
-
-        //点击下一页 发生改变
+        //选择页数的时候 发生概念
         currentPageChange(page) {
-            this.searchParams.currentPage = page;//当前页赋值
-            this.searchPage();//刷新页面
+            this.searchParams.currentPage = page;
+            this.searchPage();
         },
-        //时间框 选择时间
+        //时间框选择时间
         chooseTime() {
             this.searchParams.startTime = this.dateOptions.startDate[0];
             this.searchParams.endTime = this.dateOptions.startDate[1];
         },
-        //点击重置
         resetForm() {
-            //重置第一页信息
             this.searchParams = {currentPage: 1, pageSize: 5}
-            this.dateOptions.startDate = '';//时间选择框清空
+            this.dateOptions.startDate = '';
         },
         /**
-         * 显示批量删除框
+         * 展示批量删除的弹框
          */
         showBatchDeleteDialog() {
             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -141,24 +141,24 @@ let brand = {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.batchDeleteByIds();
+                this.deleteById();
             })
         },
-        /**
-         * 选择图片的钩子函数
-         */
-        async getImgStr(e) {
-            this.imageUrl = await base64.getBase64Str(e.file);//回写显示
-            //给formdata赋值
-            this.formData.brandLogo = this.imageUrl;
-            console.log(this.formData.brandLogo)
-            console.log(this.imageUrl)
 
+        /**
+         * 刷新页面
+         */
+        refreshPage() {
+            this.searchPage();
+            if (this.expandId) {
+                const {tree, treeNode, resolve} = this.map.get(this.expandId)
+                this.$set(this.$refs.huige.store.states.lazyTreeNodeMap, this.expandId, [])
+                this.loadTableData(tree, treeNode, resolve);
+            }
+            this.disable = true;
         }
 
-
     }
-
 
 }
 

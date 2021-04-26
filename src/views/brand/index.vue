@@ -36,8 +36,10 @@
         </div>
         <!--    操作功能 -->
         <div class="crud-box">
-            <el-button type="primary" size="mini" icon="el-icon-edit" @click="dialogVisible=true,formData={},imageUrl='',findById()">新建</el-button>
-            <el-button type="success" size="mini" icon="el-icon-edit" :disabled="batchIds.length!=1" @click="dialogVisible=true">修改</el-button>
+            <el-button type="primary" size="mini" icon="el-icon-edit"
+                       v-has-perm="['brand:add']"
+                       @click="dialogVisible=true,formData={},imageUrl='',findById()" >新建</el-button>
+            <el-button type="success" size="mini" icon="el-icon-edit" :disabled="batchIds.length!=1" @click="dialogVisible=true" >修改</el-button>
             <el-button type="danger" size="mini" icon="el-icon-delete" :disabled="batchIds.length<=0"
                        @click="showBatchDeleteDialog">删除
             </el-button>
@@ -89,7 +91,9 @@
                         align="center"
                         label="操作">
                     <template v-slot="hanjie">
-                        <el-button type="primary" size="mini" icon="el-icon-edit" @click="dialogVisible=true,formData.id=hanjie.row.id,findById()"></el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-edit"
+                                   v-has-perm="['brand:edit']"
+                                   @click="dialogVisible=true,formData.id=hanjie.row.id,findById()"></el-button>
                         <el-popconfirm
                                 confirm-button-text='确定'
                                 cancel-button-text='取消'
@@ -100,7 +104,7 @@
                                 title="是否要删除本条记录？"
                         >
                             <el-button slot="reference" type="danger" size="mini" @click="formData.id=hanjie.row.id"
-                                       icon="el-icon-delete"></el-button>
+                                       v-has-perm="['brand:delete']" icon="el-icon-delete"></el-button>
                         </el-popconfirm>
                     </template>
 

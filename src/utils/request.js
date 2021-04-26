@@ -6,6 +6,9 @@ import axios from "axios";
 //引入elementUI中的Notification
 import {Notification} from 'element-ui'
 
+//引入token
+import  auth from "@/utils/auth";//引入token
+
 //创建axios
 /*
 * instance对象 就是我们之前在项目中使用 axios
@@ -19,6 +22,9 @@ const instance = axios.create({
 
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
+    //发送token到后台
+    config.headers.Authorization="Bearer "+auth.getToken();
+
     return config;
 }, function (error) {
     // Do something with request error

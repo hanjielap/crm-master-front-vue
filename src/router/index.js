@@ -13,8 +13,14 @@ const routes = [
         path: '/',
         name: 'Main',
         component: Home,
+        redirect:'/index',//默认/ 跳转路径
         //子页面品牌
         children: [
+            {
+                path: '/index',
+                name: 'Index',
+                component: () => import( '../views/index/index.vue')
+            },
 
             {
                 path: '/brand',

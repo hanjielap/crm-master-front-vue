@@ -49,7 +49,10 @@ let brand = {
          * 查看所有权限
          */
         async getAllTreeMenu() {
-            this.menuList=await  menu.getAllMenuTree();
+            //去除主目录
+            let response=await  menu.getAllMenuTree();
+            //权限目录赋值
+            this.menuList=response[0].children;
         },
 
 

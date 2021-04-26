@@ -22,25 +22,25 @@
                 <div class="login-form">
                     <div class="form-item">
                         <i class="el-icon-s-custom"></i>
-                        <input type="text" placeholder="请输入用户名">
+                        <input type="text" placeholder="请输入用户名" v-model="loginForm.username">
                     </div>
                     <div class="form-item">
                         <i class="el-icon-house"></i>
-                        <input type="text" placeholder="请输入密码">
+                        <input type="text" placeholder="请输入密码" v-model="loginForm.password">
                     </div>
                     <div class="form-item-code">
                         <div class="form-item code-item">
                             <i class="el-icon-house"></i>
-                            <input type="text" placeholder="请输入密码">
+                            <input type="text" placeholder="请输入验证码" v-model="loginForm.captcha">
                         </div>
 
                         <div class="img-code">
-                            <img src="" alt="">
+                            <img :src="base64Str" @click="getCaptcha" alt="">
                         </div>
                     </div>
 
                     <div class="form-item">
-                        <button>登录</button>
+                        <button @click="doLogin">登录</button>
                     </div>
                 </div>
 
